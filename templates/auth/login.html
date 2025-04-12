@@ -3,19 +3,53 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <div class="auth-form">
-        <h2>Login</h2>
-        <form method="POST">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+<div class="flex justify-center items-center min-h-[75vh]">
+    <div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 space-y-6 animate-fade-in">
+        <h2 class="text-2xl font-bold text-center text-primary">Welcome Back 👋</h2>
+        
+        <form method="POST" class="space-y-4">
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" id="username" name="username" required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-primary focus:border-primary transition duration-300">
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-primary focus:border-primary transition duration-300">
             </div>
-            <button type="submit" class="btn">Login</button>
+
+            <button type="submit"
+                class="w-full bg-primary text-white font-semibold py-2 rounded-xl hover:bg-secondary transition-all duration-300 ease-in-out transform hover:scale-105">
+                Login
+            </button>
         </form>
-        <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+
+        <p class="text-sm text-center text-gray-600 text-blue-700">
+            Don't have an account? 
+            <a href="{{ url_for('register') }}" class="text-primary hover:underline transition duration-200">Register here</a>
+        </p>
     </div>
+</div>
+
+<!-- Optional custom animation with Tailwind's @layer utilities if you want -->
+<style>
+    @layer utilities {
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-in-out both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+</style>
 {% endblock %}

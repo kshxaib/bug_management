@@ -3,64 +3,81 @@
 {% block title %}User Dashboard{% endblock %}
 
 {% block content %}
-    <h1>Welcome, {{ current_user.username }}</h1>
-    
-    <div class="stats">
-        <div class="stat-card">
-            <h3>Bugs Created</h3>
-            <p>{{ bugs_created|length }}</p>
-        </div>
-        <div class="stat-card">
-            <h3>Bugs Assigned</h3>
-            <p>{{ bugs_assigned|length }}</p>
-        </div>
+<div class="max-w-6xl mx-auto px-4 py-10 space-y-10">
+
+  <div class="space-y-2">
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-white">👋 Welcome, {{ current_user.username }}</h1>
+    <p class="text-gray-600 dark:text-gray-300">Here’s a quick overview of your recent bug activity.</p>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md text-center">
+      <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">🐞 Bugs Created</h3>
+      <p class="text-3xl font-bold text-blue-600 dark:text-blue-400">{{ bugs_created|length }}</p>
     </div>
-    
-    <h2>Your Recent Bugs</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Created At</th>
-            </tr>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md text-center">
+      <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">🛠️ Bugs Assigned</h3>
+      <p class="text-3xl font-bold text-green-600 dark:text-green-400">{{ bugs_assigned|length }}</p>
+    </div>
+  </div>
+
+  <!-- Recent Bugs Created -->
+  <section>
+    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">📌 Recently Created Bugs</h2>
+    <div class="overflow-x-auto rounded-xl shadow">
+      <table class="min-w-full bg-white dark:bg-gray-900 text-sm text-left text-gray-700 dark:text-gray-300">
+        <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs tracking-wider text-gray-600 dark:text-gray-300">
+          <tr>
+            <th class="px-6 py-3">ID</th>
+            <th class="px-6 py-3">Title</th>
+            <th class="px-6 py-3">Status</th>
+            <th class="px-6 py-3">Priority</th>
+            <th class="px-6 py-3">Created At</th>
+          </tr>
         </thead>
         <tbody>
-            {% for bug in bugs_created[-5:] %}
-            <tr>
-                <td>{{ bug.id }}</td>
-                <td>{{ bug.title }}</td>
-                <td>{{ bug.status }}</td>
-                <td>{{ bug.priority }}</td>
-                <td>{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-            </tr>
-            {% endfor %}
+          {% for bug in bugs_created[-5:] %}
+          <tr class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-150">
+            <td class="px-6 py-4">{{ bug.id }}</td>
+            <td class="px-6 py-4">{{ bug.title }}</td>
+            <td class="px-6 py-4">{{ bug.status }}</td>
+            <td class="px-6 py-4">{{ bug.priority }}</td>
+            <td class="px-6 py-4">{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          </tr>
+          {% endfor %}
         </tbody>
-    </table>
-    
-    <h2>Your Assigned Bugs</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Created At</th>
-            </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- Assigned Bugs -->
+  <section>
+    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mt-12 mb-4">🧰 Recently Assigned Bugs</h2>
+    <div class="overflow-x-auto rounded-xl shadow">
+      <table class="min-w-full bg-white dark:bg-gray-900 text-sm text-left text-gray-700 dark:text-gray-300">
+        <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs tracking-wider text-gray-600 dark:text-gray-300">
+          <tr>
+            <th class="px-6 py-3">ID</th>
+            <th class="px-6 py-3">Title</th>
+            <th class="px-6 py-3">Status</th>
+            <th class="px-6 py-3">Priority</th>
+            <th class="px-6 py-3">Created At</th>
+          </tr>
         </thead>
         <tbody>
-            {% for bug in bugs_assigned[-5:] %}
-            <tr>
-                <td>{{ bug.id }}</td>
-                <td>{{ bug.title }}</td>
-                <td>{{ bug.status }}</td>
-                <td>{{ bug.priority }}</td>
-                <td>{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-            </tr>
-            {% endfor %}
+          {% for bug in bugs_assigned[-5:] %}
+          <tr class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-150">
+            <td class="px-6 py-4">{{ bug.id }}</td>
+            <td class="px-6 py-4">{{ bug.title }}</td>
+            <td class="px-6 py-4">{{ bug.status }}</td>
+            <td class="px-6 py-4">{{ bug.priority }}</td>
+            <td class="px-6 py-4">{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          </tr>
+          {% endfor %}
         </tbody>
-    </table>
+      </table>
+    </div>
+  </section>
+</div>
 {% endblock %}

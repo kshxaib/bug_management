@@ -4,43 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bug Management System - {% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Optional: Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#818CF8',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <nav>
-        <div class="container">
-            <a href="{{ url_for('home') }}" class="logo">Bug Management</a>
-            <div class="nav-links">
+<body class="bg-gray-100 text-gray-900 min-h-screen">
+
+    <nav class="bg-white shadow mb-6">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="{{ url_for('home') }}" class="text-2xl font-bold text-primary">Bug Management</a>
+            <div class="space-x-4">
                 {% if current_user.is_authenticated %}
                     {% if current_user.is_admin %}
-                        <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
-                        <a href="{{ url_for('manage_bugs') }}">Manage Bugs</a>
-                        <a href="{{ url_for('assigned_bugs') }}">Assigned Bugs</a>
-                        <a href="{{ url_for('bug_reports') }}">Reports</a>
+                        <a href="{{ url_for('admin_dashboard') }}" class="text-gray-700 hover:text-primary">Dashboard</a>
+                        <a href="{{ url_for('manage_bugs') }}" class="text-gray-700 hover:text-primary">Manage Bugs</a>
+                        <a href="{{ url_for('assigned_bugs') }}" class="text-gray-700 hover:text-primary">Assigned Bugs</a>
+                        <a href="{{ url_for('bug_reports') }}" class="text-gray-700 hover:text-primary">Reports</a>
                     {% else %}
-                        <a href="{{ url_for('user_dashboard') }}">Dashboard</a>
-                        <a href="{{ url_for('create_bug') }}">Create Bug</a>
-                        <a href="{{ url_for('view_assigned_bugs') }}">My Assigned Bugs</a>
+                        <a href="{{ url_for('user_dashboard') }}" class="text-gray-700 hover:text-primary">Dashboard</a>
+                        <a href="{{ url_for('create_bug') }}" class="text-gray-700 hover:text-primary">Create Bug</a>
+                        <a href="{{ url_for('view_assigned_bugs') }}" class="text-gray-700 hover:text-primary">My Assigned Bugs</a>
                     {% endif %}
-                    <a href="{{ url_for('logout') }}">Logout</a>
+                    <a href="{{ url_for('logout') }}" class="text-red-600 hover:underline">Logout</a>
                 {% else %}
-                    <a href="{{ url_for('login') }}">Login</a>
-                    <a href="{{ url_for('register') }}">Register</a>
+                    <a href="{{ url_for('login') }}" class="text-gray-700 hover:text-primary">Login</a>
+                    <a href="{{ url_for('register') }}" class="text-gray-700 hover:text-primary">Register</a>
                 {% endif %}
             </div>
         </div>
     </nav>
 
-    <div class="container">
+    <div class="max-w-6xl mx-auto px-4">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    <div class="p-4 mb-4 rounded text-white {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }}">
+                        {{ message }}
+                    </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
 
         {% block content %}{% endblock %}
     </div>
+
 </body>
 </html>

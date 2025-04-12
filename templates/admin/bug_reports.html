@@ -3,57 +3,100 @@
 {% block title %}Bug Reports{% endblock %}
 
 {% block content %}
-    <h1>Bug Reports</h1>
-    
-    <h2>Daily Bugs (Today)</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Creator</th>
-                <th>Created At</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for bug in daily_bugs %}
-            <tr>
-                <td>{{ bug.id }}</td>
-                <td>{{ bug.title }}</td>
-                <td>{{ bug.status }}</td>
-                <td>{{ bug.priority }}</td>
-                <td>{{ bug.creator.username }}</td>
-                <td>{{ bug.created_at.strftime('%H:%M') }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <h2>Monthly Bugs</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Creator</th>
-                <th>Created At</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for bug in monthly_bugs %}
-            <tr>
-                <td>{{ bug.id }}</td>
-                <td>{{ bug.title }}</td>
-                <td>{{ bug.status }}</td>
-                <td>{{ bug.priority }}</td>
-                <td>{{ bug.creator.username }}</td>
-                <td>{{ bug.created_at.strftime('%Y-%m-%d') }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="p-6 space-y-10 animate-fade-in">
+    <h1 class="text-3xl font-bold text-gray-900">🐞 Bug Reports</h1>
+
+    <!-- Daily Bugs -->
+    <div class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">🗓️ Daily Bugs (Today)</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-xl">
+                <thead class="bg-gray-100 uppercase text-xs text-gray-600">
+                    <tr>
+                        <th class="px-4 py-2">ID</th>
+                        <th class="px-4 py-2">Title</th>
+                        <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Priority</th>
+                        <th class="px-4 py-2">Creator</th>
+                        <th class="px-4 py-2">Created At</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    {% for bug in daily_bugs %}
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="px-4 py-2">{{ bug.id }}</td>
+                        <td class="px-4 py-2">{{ bug.title }}</td>
+                        <td class="px-4 py-2">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold 
+                                ">
+                                {{ bug.status }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold 
+                                ">
+                                {{ bug.priority }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2">{{ bug.creator.username }}</td>
+                        <td class="px-4 py-2">{{ bug.created_at.strftime('%H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Monthly Bugs -->
+    <div class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">📅 Monthly Bugs</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-xl">
+                <thead class="bg-gray-100 uppercase text-xs text-gray-600">
+                    <tr>
+                        <th class="px-4 py-2">ID</th>
+                        <th class="px-4 py-2">Title</th>
+                        <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Priority</th>
+                        <th class="px-4 py-2">Creator</th>
+                        <th class="px-4 py-2">Created At</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    {% for bug in monthly_bugs %}
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="px-4 py-2">{{ bug.id }}</td>
+                        <td class="px-4 py-2">{{ bug.title }}</td>
+                        <td class="px-4 py-2">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold 
+                                ">
+                                {{ bug.status }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold 
+                                ">
+                                {{ bug.priority }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2">{{ bug.creator.username }}</td>
+                        <td class="px-4 py-2">{{ bug.created_at.strftime('%Y-%m-%d') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Simple fade-in animation -->
+<style>
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fade-in 0.4s ease-in-out;
+}
+</style>
 {% endblock %}

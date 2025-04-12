@@ -3,63 +3,120 @@
 {% block title %}User Details - {{ user.username }}{% endblock %}
 
 {% block content %}
-    <h1>User Details: {{ user.username }}</h1>
-    
-    <div class="user-info">
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Total Bugs Created:</strong> {{ bugs_created|length }}</p>
-        <p><strong>Total Bugs Assigned:</strong> {{ bugs_assigned|length }}</p>
+<div class="max-w-6xl mx-auto px-4 py-10 animate-fade-in space-y-10">
+  
+  <div class="space-y-2">
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-white">👤 {{ user.username }}</h1>
+    <p class="text-gray-600 dark:text-gray-300">Detailed overview of user activity.</p>
+  </div>
+
+  <!-- User Summary Card -->
+  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 grid grid-cols-1 md:grid-cols-3 gap-6 transition duration-300 hover:shadow-xl">
+    <div>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Email</p>
+      <p class="text-lg font-medium text-gray-800 dark:text-gray-100">{{ user.email }}</p>
     </div>
-    
-    <h2>Bugs Created</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Created At</th>
-            </tr>
+    <div>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Total Bugs Created</p>
+      <p class="text-lg font-semibold text-blue-600 dark:text-blue-400">{{ bugs_created|length }}</p>
+    </div>
+    <div>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Total Bugs Assigned</p>
+      <p class="text-lg font-semibold text-green-600 dark:text-green-400">{{ bugs_assigned|length }}</p>
+    </div>
+  </div>
+
+  <!-- Bugs Created Table -->
+  <section>
+    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">🐞 Bugs Created</h2>
+    <div class="overflow-x-auto rounded-xl shadow-md animate-slide-up">
+      <table class="min-w-full bg-white dark:bg-gray-900 text-sm text-left text-gray-700 dark:text-gray-300">
+        <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs tracking-wider text-gray-600 dark:text-gray-300">
+          <tr>
+            <th class="px-6 py-3">ID</th>
+            <th class="px-6 py-3">Title</th>
+            <th class="px-6 py-3">Status</th>
+            <th class="px-6 py-3">Priority</th>
+            <th class="px-6 py-3">Created At</th>
+          </tr>
         </thead>
         <tbody>
-            {% for bug in bugs_created %}
-            <tr>
-                <td>{{ bug.id }}</td>
-                <td>{{ bug.title }}</td>
-                <td>{{ bug.status }}</td>
-                <td>{{ bug.priority }}</td>
-                <td>{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-            </tr>
-            {% endfor %}
+          {% for bug in bugs_created %}
+          <tr class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-150">
+            <td class="px-6 py-4">{{ bug.id }}</td>
+            <td class="px-6 py-4">{{ bug.title }}</td>
+            <td class="px-6 py-4">{{ bug.status }}</td>
+            <td class="px-6 py-4">{{ bug.priority }}</td>
+            <td class="px-6 py-4">{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          </tr>
+          {% endfor %}
         </tbody>
-    </table>
-    
-    <h2>Bugs Assigned</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Creator</th>
-                <th>Created At</th>
-            </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- Bugs Assigned Table -->
+  <section>
+    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mt-12 mb-4">🛠️ Bugs Assigned</h2>
+    <div class="overflow-x-auto rounded-xl shadow-md animate-slide-up">
+      <table class="min-w-full bg-white dark:bg-gray-900 text-sm text-left text-gray-700 dark:text-gray-300">
+        <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs tracking-wider text-gray-600 dark:text-gray-300">
+          <tr>
+            <th class="px-6 py-3">ID</th>
+            <th class="px-6 py-3">Title</th>
+            <th class="px-6 py-3">Status</th>
+            <th class="px-6 py-3">Priority</th>
+            <th class="px-6 py-3">Creator</th>
+            <th class="px-6 py-3">Created At</th>
+          </tr>
         </thead>
         <tbody>
-            {% for bug in bugs_assigned %}
-            <tr>
-                <td>{{ bug.id }}</td>
-                <td>{{ bug.title }}</td>
-                <td>{{ bug.status }}</td>
-                <td>{{ bug.priority }}</td>
-                <td>{{ bug.creator.username }}</td>
-                <td>{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-            </tr>
-            {% endfor %}
+          {% for bug in bugs_assigned %}
+          <tr class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-150">
+            <td class="px-6 py-4">{{ bug.id }}</td>
+            <td class="px-6 py-4">{{ bug.title }}</td>
+            <td class="px-6 py-4">{{ bug.status }}</td>
+            <td class="px-6 py-4">{{ bug.priority }}</td>
+            <td class="px-6 py-4">{{ bug.creator.username }}</td>
+            <td class="px-6 py-4">{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          </tr>
+          {% endfor %}
         </tbody>
-    </table>
-    
-    <a href="{{ url_for('admin_dashboard') }}" class="btn">Back to Dashboard</a>
+      </table>
+    </div>
+  </section>
+
+  <div class="mt-12 text-center">
+    <a href="{{ url_for('admin_dashboard') }}"
+       class="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition duration-300 animate-bounce-once">
+      ← Back to Dashboard
+    </a>
+  </div>
+</div>
 {% endblock %}
+
+<style>
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.7s ease-out;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up {
+  animation: slide-up 0.7s ease-out;
+}
+
+@keyframes bounce-once {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.animate-bounce-once {
+  animation: bounce-once 0.4s ease-out;
+}
+</style>

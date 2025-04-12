@@ -3,26 +3,58 @@
 {% block title %}Create Bug{% endblock %}
 
 {% block content %}
-    <h1>Create New Bug</h1>
-    
-    <form method="POST">
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title" required>
+<div class="max-w-3xl mx-auto px-6 py-10 bg-white shadow-xl rounded-2xl animate-fade-in">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8 flex items-center gap-2">
+         Create Bug Report
+    </h1>
+
+    <form method="POST" class="space-y-6">
+        <!-- Title -->
+        <div>
+            <label for="title" class="block text-sm font-semibold text-gray-700 mb-1">🔖 Title</label>
+            <input type="text" id="title" name="title" required
+                placeholder="e.g. Login button not working"
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm">
         </div>
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" rows="5" required></textarea>
+
+        <!-- Description -->
+        <div>
+            <label for="description" class="block text-sm font-semibold text-gray-700 mb-1">📝 Description</label>
+            <textarea id="description" name="description" rows="5" required
+                placeholder="Describe the bug in detail..."
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm resize-none"></textarea>
         </div>
-        <div class="form-group">
-            <label for="priority">Priority</label>
-            <select id="priority" name="priority">
-                <option value="Low">Low</option>
-                <option value="Medium" selected>Medium</option>
-                <option value="High">High</option>
-                <option value="Critical">Critical</option>
+
+        <!-- Priority -->
+        <div>
+            <label for="priority" class="block text-sm font-semibold text-gray-700 mb-1">⚡ Priority</label>
+            <select id="priority" name="priority"
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                <option value="Low">🟢 Low</option>
+                <option value="Medium" selected>🟡 Medium</option>
+                <option value="High">🔴 High</option>
+                <option value="Critical">🚨 Critical</option>
             </select>
         </div>
-        <button type="submit" class="btn">Submit Bug</button>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+            <button type="submit"
+                class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3 px-6 rounded-xl shadow-lg transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400">
+                🚀 Submit Bug
+            </button>
+        </div>
     </form>
+</div>
+
+<!-- Custom Animation -->
+<style>
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fade-in 0.5s ease-in-out both;
+}
+</style>
 {% endblock %}
