@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Welcome, {{ current_user.username }}</h1>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Bugs Created</h3>
+            <p>{{ bugs_created|length }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Bugs Assigned</h3>
+            <p>{{ bugs_assigned|length }}</p>
+        </div>
+    </div>
+    
+    <h2>Your Recent Bugs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bug in bugs_created[-5:] %}
+            <tr>
+                <td>{{ bug.id }}</td>
+                <td>{{ bug.title }}</td>
+                <td>{{ bug.status }}</td>
+                <td>{{ bug.priority }}</td>
+                <td>{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h2>Your Assigned Bugs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bug in bugs_assigned[-5:] %}
+            <tr>
+                <td>{{ bug.id }}</td>
+                <td>{{ bug.title }}</td>
+                <td>{{ bug.status }}</td>
+                <td>{{ bug.priority }}</td>
+                <td>{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

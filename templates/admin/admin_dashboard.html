@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Admin Dashboard</h1>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Total Users</h3>
+            <p>{{ users|length }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total Bugs</h3>
+            <p>{{ bugs|length }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Open Bugs</h3>
+            <p>{{ open_bugs }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>In Progress</h3>
+            <p>{{ in_progress_bugs }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Closed Bugs</h3>
+            <p>{{ closed_bugs }}</p>
+        </div>
+    </div>
+    
+    <h2>Recent Bugs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Creator</th>
+                <th>Assignee</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bug in bugs[-5:] %}
+            <tr>
+                <td>{{ bug.id }}</td>
+                <td>{{ bug.title }}</td>
+                <td>{{ bug.status }}</td>
+                <td>{{ bug.priority }}</td>
+                <td>{{ bug.creator.username }}</td>
+                <td>{{ bug.assignee.username if bug.assignee else 'Unassigned' }}</td>
+                <td>{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h2>Users</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Bugs Created</th>
+                <th>Bugs Assigned</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.bugs_created|length }}</td>
+                <td>{{ user.bugs_assigned|length }}</td>
+                <td>
+                    <a href="{{ url_for('user_details', user_id=user.id) }}" class="btn btn-sm">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
