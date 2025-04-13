@@ -4,42 +4,40 @@
 
 {% block content %}
 <div class="p-6 space-y-10 animate-fade-in">
-    <h1 class="text-3xl font-bold text-gray-900">🐞 Bug Reports</h1>
+    <h1 class="text-3xl font-extrabold text-primary">🐞 Bug Reports</h1>
 
     <!-- Daily Bugs -->
-    <div class="bg-white p-6 rounded-xl shadow">
+    <div class="bg-white p-6 rounded-xl shadow-lg ring-1 ring-gray-100">
         <h2 class="text-xl font-semibold text-gray-800 mb-4">🗓️ Daily Bugs (Today)</h2>
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-xl">
+            <table class="w-full text-sm text-left text-gray-800">
                 <thead class="bg-gray-100 uppercase text-xs text-gray-600">
                     <tr>
-                        <th class="px-4 py-2">ID</th>
-                        <th class="px-4 py-2">Title</th>
-                        <th class="px-4 py-2">Status</th>
-                        <th class="px-4 py-2">Priority</th>
-                        <th class="px-4 py-2">Creator</th>
-                        <th class="px-4 py-2">Created At</th>
+                        <th class="px-4 py-3">ID</th>
+                        <th class="px-4 py-3">Title</th>
+                        <th class="px-4 py-3">Status</th>
+                        <th class="px-4 py-3">Priority</th>
+                        <th class="px-4 py-3">Creator</th>
+                        <th class="px-4 py-3">Created At</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-gray-200">
                     {% for bug in daily_bugs %}
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-2">{{ bug.id }}</td>
-                        <td class="px-4 py-2">{{ bug.title }}</td>
+                        <td class="px-4 py-2 font-mono">{{ bug.id }}</td>
+                        <td class="px-4 py-2 font-medium">{{ bug.title }}</td>
                         <td class="px-4 py-2">
-                            <span class="px-2 py-1 rounded-full text-xs font-semibold 
-                                ">
+                            <span class="status-badge {{ bug.status|lower|replace(' ', '-') }}">
                                 {{ bug.status }}
                             </span>
                         </td>
                         <td class="px-4 py-2">
-                            <span class="px-2 py-1 rounded-full text-xs font-semibold 
-                                ">
+                            <span class="priority-badge {{ bug.priority|lower }}">
                                 {{ bug.priority }}
                             </span>
                         </td>
                         <td class="px-4 py-2">{{ bug.creator.username }}</td>
-                        <td class="px-4 py-2">{{ bug.created_at.strftime('%H:%M') }}</td>
+                        <td class="px-4 py-2 text-gray-500">{{ bug.created_at.strftime('%H:%M') }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -48,39 +46,37 @@
     </div>
 
     <!-- Monthly Bugs -->
-    <div class="bg-white p-6 rounded-xl shadow">
+    <div class="bg-white p-6 rounded-xl shadow-lg ring-1 ring-gray-100">
         <h2 class="text-xl font-semibold text-gray-800 mb-4">📅 Monthly Bugs</h2>
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-xl">
+            <table class="w-full text-sm text-left text-gray-800">
                 <thead class="bg-gray-100 uppercase text-xs text-gray-600">
                     <tr>
-                        <th class="px-4 py-2">ID</th>
-                        <th class="px-4 py-2">Title</th>
-                        <th class="px-4 py-2">Status</th>
-                        <th class="px-4 py-2">Priority</th>
-                        <th class="px-4 py-2">Creator</th>
-                        <th class="px-4 py-2">Created At</th>
+                        <th class="px-4 py-3">ID</th>
+                        <th class="px-4 py-3">Title</th>
+                        <th class="px-4 py-3">Status</th>
+                        <th class="px-4 py-3">Priority</th>
+                        <th class="px-4 py-3">Creator</th>
+                        <th class="px-4 py-3">Created At</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-gray-200">
                     {% for bug in monthly_bugs %}
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-2">{{ bug.id }}</td>
-                        <td class="px-4 py-2">{{ bug.title }}</td>
+                        <td class="px-4 py-2 font-mono">{{ bug.id }}</td>
+                        <td class="px-4 py-2 font-medium">{{ bug.title }}</td>
                         <td class="px-4 py-2">
-                            <span class="px-2 py-1 rounded-full text-xs font-semibold 
-                                ">
+                            <span class="status-badge {{ bug.status|lower|replace(' ', '-') }}">
                                 {{ bug.status }}
                             </span>
                         </td>
                         <td class="px-4 py-2">
-                            <span class="px-2 py-1 rounded-full text-xs font-semibold 
-                                ">
+                            <span class="priority-badge {{ bug.priority|lower }}">
                                 {{ bug.priority }}
                             </span>
                         </td>
                         <td class="px-4 py-2">{{ bug.creator.username }}</td>
-                        <td class="px-4 py-2">{{ bug.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td class="px-4 py-2 text-gray-500">{{ bug.created_at.strftime('%Y-%m-%d') }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -89,7 +85,7 @@
     </div>
 </div>
 
-<!-- Simple fade-in animation -->
+<!-- Animation & Badge Styles -->
 <style>
 @keyframes fade-in {
     from { opacity: 0; transform: translateY(8px); }
@@ -97,6 +93,32 @@
 }
 .animate-fade-in {
     animation: fade-in 0.4s ease-in-out;
+}
+
+.status-badge {
+    @apply inline-block text-xs font-semibold px-2 py-1 rounded-full;
+}
+.status-badge.open {
+    @apply bg-orange-100 text-orange-600;
+}
+.status-badge.in-progress {
+    @apply bg-yellow-100 text-yellow-600;
+}
+.status-badge.closed {
+    @apply bg-green-100 text-green-600;
+}
+
+.priority-badge {
+    @apply inline-block text-xs font-semibold px-2 py-1 rounded-full;
+}
+.priority-badge.low {
+    @apply bg-blue-100 text-blue-600;
+}
+.priority-badge.medium {
+    @apply bg-yellow-100 text-yellow-600;
+}
+.priority-badge.high {
+    @apply bg-red-100 text-red-600;
 }
 </style>
 {% endblock %}

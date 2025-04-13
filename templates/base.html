@@ -1,66 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bug Management System - {% block title %}{% endblock %}</title>
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Optional: Custom Tailwind Config -->
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#6366F1',
-                        secondary: '#818CF8',
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#6366F1",
+              secondary: "#818CF8",
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="bg-gray-100 text-gray-900 min-h-screen">
-
+  </head>
+  <body class="bg-gray-100 text-gray-900 min-h-screen">
     <nav class="bg-white shadow mb-6">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="{{ url_for('home') }}" class="text-2xl font-bold text-primary">Bug Management</a>
-            <div class="space-x-4">
-                {% if current_user.is_authenticated %}
-                    {% if current_user.is_admin %}
-                        <a href="{{ url_for('admin_dashboard') }}" class="text-gray-700 hover:text-primary">Dashboard</a>
-                        <a href="{{ url_for('manage_bugs') }}" class="text-gray-700 hover:text-primary">Manage Bugs</a>
-                        <a href="{{ url_for('assigned_bugs') }}" class="text-gray-700 hover:text-primary">Assigned Bugs</a>
-                        <a href="{{ url_for('bug_reports') }}" class="text-gray-700 hover:text-primary">Reports</a>
-                    {% else %}
-                        <a href="{{ url_for('user_dashboard') }}" class="text-gray-700 hover:text-primary">Dashboard</a>
-                        <a href="{{ url_for('create_bug') }}" class="text-gray-700 hover:text-primary">Create Bug</a>
-                        <a href="{{ url_for('view_assigned_bugs') }}" class="text-gray-700 hover:text-primary">My Assigned Bugs</a>
-                    {% endif %}
-                    <a href="{{ url_for('logout') }}" class="text-red-600 hover:underline">Logout</a>
-                {% else %}
-                    <a href="{{ url_for('login') }}" class="text-gray-700 hover:text-primary">Login</a>
-                    <a href="{{ url_for('register') }}" class="text-gray-700 hover:text-primary">Register</a>
-                {% endif %}
-            </div>
+      <div
+        class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <a href="{{ url_for('home') }}" class="text-2xl font-bold text-primary"
+          >Bug Management</a
+        >
+        <div class="space-x-4">
+          {% if current_user.is_authenticated %} {% if current_user.is_admin %}
+          <a
+            href="{{ url_for('admin_dashboard') }}"
+            class="text-gray-700 hover:text-primary"
+            >Dashboard</a
+          >
+          <a
+            href="{{ url_for('manage_bugs') }}"
+            class="text-gray-700 hover:text-primary"
+            >Manage Bugs</a
+          >
+          <a
+            href="{{ url_for('assigned_bugs') }}"
+            class="text-gray-700 hover:text-primary"
+            >Assigned Bugs</a
+          >
+          <a
+            href="{{ url_for('bug_reports') }}"
+            class="text-gray-700 hover:text-primary"
+            >Reports</a
+          >
+          {% else %}
+          <a
+            href="{{ url_for('user_dashboard') }}"
+            class="text-gray-700 hover:text-primary"
+            >Dashboard</a
+          >
+          <a
+            href="{{ url_for('create_bug') }}"
+            class="text-gray-700 hover:text-primary"
+            >Create Bug</a
+          >
+          <a
+            href="{{ url_for('view_assigned_bugs') }}"
+            class="text-gray-700 hover:text-primary"
+            >My Assigned Bugs</a
+          >
+          {% endif %}
+          <a
+            href="{{ url_for('logout') }}"
+            class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition duration-200 shadow-sm"
+          >
+            Logout
+          </a>
+
+          {% else %}
+          <a href="{{ url_for('login') }}"
+   class="bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded transition duration-200">
+  Login
+</a>
+<a href="{{ url_for('register') }}"
+   class="bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded transition duration-200">
+  Register
+</a>
+          {% endif %}
         </div>
+      </div>
     </nav>
 
     <div class="max-w-6xl mx-auto px-4">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="p-4 mb-4 rounded text-white {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
-        {% block content %}{% endblock %}
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="p-4 mb-4 rounded text-white {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
     </div>
-
-</body>
+  </body>
 </html>

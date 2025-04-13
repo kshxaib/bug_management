@@ -3,103 +3,103 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<div class="p-6 animate-fade-in">
-    <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+<div class="p-6 animate-fade-in space-y-10">
+    <h1 class="text-3xl font-extrabold text-primary"> Admin Dashboard</h1>
     
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6 mb-10">
-        <div class="stat-card bg-white shadow-lg rounded-2xl p-4 text-center">
-            <h3 class="text-gray-500 text-sm uppercase">Total Users</h3>
-            <p class="text-2xl font-semibold text-blue-600">{{ users|length }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
+        {% set stats = [
+            ('Total Users', users|length, 'text-blue-500', '👥'),
+            ('Total Bugs', bugs|length, 'text-red-500', '🐞'),
+            ('Open Bugs', open_bugs, 'text-orange-500', '📂'),
+            ('In Progress', in_progress_bugs, 'text-yellow-500', '⚙️'),
+            ('Closed Bugs', closed_bugs, 'text-green-500', '✅')
+        ] %}
+        {% for label, value, color, emoji in stats %}
+        <div class="bg-white shadow-xl hover:shadow-2xl transition rounded-2xl p-5 text-center border-t-4 border-gray-100">
+            <div class="text-3xl mb-2">{{ emoji }}</div>
+            <h3 class="text-gray-500 text-sm uppercase tracking-wider">{{ label }}</h3>
+            <p class="text-2xl font-bold {{ color }}">{{ value }}</p>
         </div>
-        <div class="stat-card bg-white shadow-lg rounded-2xl p-4 text-center">
-            <h3 class="text-gray-500 text-sm uppercase">Total Bugs</h3>
-            <p class="text-2xl font-semibold text-red-600">{{ bugs|length }}</p>
-        </div>
-        <div class="stat-card bg-white shadow-lg rounded-2xl p-4 text-center">
-            <h3 class="text-gray-500 text-sm uppercase">Open Bugs</h3>
-            <p class="text-2xl font-semibold text-orange-500">{{ open_bugs }}</p>
-        </div>
-        <div class="stat-card bg-white shadow-lg rounded-2xl p-4 text-center">
-            <h3 class="text-gray-500 text-sm uppercase">In Progress</h3>
-            <p class="text-2xl font-semibold text-yellow-500">{{ in_progress_bugs }}</p>
-        </div>
-        <div class="stat-card bg-white shadow-lg rounded-2xl p-4 text-center">
-            <h3 class="text-gray-500 text-sm uppercase">Closed Bugs</h3>
-            <p class="text-2xl font-semibold text-green-500">{{ closed_bugs }}</p>
-        </div>
+        {% endfor %}
     </div>
 
     <!-- Recent Bugs Table -->
-    <h2 class="text-2xl font-semibold mb-4">Recent Bugs</h2>
-    <div class="overflow-x-auto shadow-md rounded-lg mb-10 animate-fade-in">
-        <table class="min-w-full bg-white rounded-xl overflow-hidden">
-            <thead class="bg-gray-100 text-gray-700 text-sm">
-                <tr>
-                    <th class="px-4 py-2 text-left">ID</th>
-                    <th class="px-4 py-2 text-left">Title</th>
-                    <th class="px-4 py-2 text-left">Status</th>
-                    <th class="px-4 py-2 text-left">Priority</th>
-                    <th class="px-4 py-2 text-left">Creator</th>
-                    <th class="px-4 py-2 text-left">Assignee</th>
-                    <th class="px-4 py-2 text-left">Created At</th>
-                </tr>
-            </thead>
-            <tbody class="text-sm divide-y divide-gray-200">
-                {% for bug in bugs[-5:] %}
-                <tr class="hover:bg-gray-50 transition">
-                    <td class="px-4 py-2">{{ bug.id }}</td>
-                    <td class="px-4 py-2">{{ bug.title }}</td>
-                    <td class="px-4 py-2">{{ bug.status }}</td>
-                    <td class="px-4 py-2">{{ bug.priority }}</td>
-                    <td class="px-4 py-2">{{ bug.creator.username }}</td>
-                    <td class="px-4 py-2">
-                        {% if bug.assignee %}
-                            <span class="inline-block text-sm font-extrabold px-2 text-green-600 py-1 rounded-full font-medium justify-center flex">
-                                {{ bug.assignee.username }}
+    <div>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-3">🕵️‍♂️ Recent Bugs</h2>
+        <div class="overflow-x-auto rounded-xl shadow-lg animate-fade-in">
+            <table class="min-w-full bg-white border-separate border-spacing-y-2">
+                <thead class="bg-gray-100 text-gray-600 text-sm uppercase">
+                    <tr>
+                        {% for label in ['ID', 'Title', 'Status', 'Priority', 'Creator', 'Assignee', 'Created At'] %}
+                        <th class="px-4 py-3 text-left">{{ label }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="text-sm text-gray-700">
+                    {% for bug in bugs[-5:] %}
+                    <tr class="bg-white hover:bg-gray-50 transition shadow rounded-lg">
+                        <td class="px-4 py-2 font-medium">{{ bug.id }}</td>
+                        <td class="px-4 py-2">{{ bug.title }}</td>
+                        <td class="px-4 py-2">
+                            <span class="inline-block px-2 py-1 rounded-full font-semibold text-white text-xs
+                                {% if bug.status == 'Open' %} bg-orange-500
+                                {% elif bug.status == 'In Progress' %} bg-yellow-500
+                                {% elif bug.status == 'Closed' %} bg-green-500
+                                {% else %} bg-gray-400 {% endif %}">
+                                {{ bug.status }}
                             </span>
-                        {% else %}
-                            <span class="inline-block text-xs px-2 py-1 rounded-full font-medium justify-center flex">
-                                ---
-                            </span>
-                        {% endif %}
-                    </td>
-                    <td class="px-4 py-2">{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                        <td class="px-4 py-2">{{ bug.priority }}</td>
+                        <td class="px-4 py-2">{{ bug.creator.username }}</td>
+                        <td class="px-4 py-2">
+                            {% if bug.assignee %}
+                                <span class="inline-block px-2 py-1 rounded-full  text-green-600 font-semibold text-xs">
+                                    {{ bug.assignee.username }}
+                                </span>
+                            {% else %}
+                                <span class="text-gray-400 text-xs italic">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-2">{{ bug.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Users Table -->
-    <h2 class="text-2xl font-semibold mb-4">Users</h2>
-    <div class="overflow-x-auto shadow-md rounded-lg animate-fade-in">
-        <table class="min-w-full bg-white rounded-xl overflow-hidden">
-            <thead class="bg-gray-100 text-gray-700 text-sm">
-                <tr>
-                    <th class="px-4 py-2 text-left">ID</th>
-                    <th class="px-4 py-2 text-left">Username</th>
-                    <th class="px-4 py-2 text-left">Email</th>
-                    <th class="px-4 py-2 text-left">Bugs Created</th>
-                    <th class="px-4 py-2 text-left">Bugs Assigned</th>
-                    <th class="px-4 py-2 text-left">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="text-sm divide-y divide-gray-200">
-                {% for user in users %}
-                <tr class="hover:bg-gray-50 transition">
-                    <td class="px-4 py-2">{{ user.id }}</td>
-                    <td class="px-4 py-2">{{ user.username }}</td>
-                    <td class="px-4 py-2">{{ user.email }}</td>
-                    <td class="px-4 py-2">{{ user.bugs_created|length }}</td>
-                    <td class="px-4 py-2">{{ user.bugs_assigned|length }}</td>
-                    <td class="px-4 py-2">
-                        <a href="{{ url_for('user_details', user_id=user.id) }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded transition">View</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-3">🧑‍💻 Users</h2>
+        <div class="overflow-x-auto rounded-xl shadow-lg animate-fade-in">
+            <table class="min-w-full bg-white border-separate border-spacing-y-2">
+                <thead class="bg-gray-100 text-gray-600 text-sm uppercase">
+                    <tr>
+                        {% for label in ['ID', 'Username', 'Email', 'Bugs Created', 'Bugs Assigned', 'Actions'] %}
+                        <th class="px-4 py-3 text-left">{{ label }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="text-sm text-gray-700">
+                    {% for user in users %}
+                    <tr class="bg-white hover:bg-gray-50 transition shadow rounded-lg">
+                        <td class="px-4 py-2 font-medium">{{ user.id }}</td>
+                        <td class="px-4 py-2">{{ user.username }}</td>
+                        <td class="px-4 py-2">{{ user.email }}</td>
+                        <td class="px-4 py-2">{{ user.bugs_created|length }}</td>
+                        <td class="px-4 py-2">{{ user.bugs_assigned|length }}</td>
+                        <td class="px-4 py-2">
+                            <a href="{{ url_for('user_details', user_id=user.id) }}"
+                               class="inline-block bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded transition duration-200">
+                                🔍 View
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -110,7 +110,7 @@
     100% { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-in {
-    animation: fade-in 0.5s ease-out;
+    animation: fade-in 0.6s ease-out;
 }
 </style>
 {% endblock %}
